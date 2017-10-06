@@ -8,25 +8,42 @@ export default class Rook extends Piece {
         super(player);
     }
 
-    public getAvailableMoves(board: Board) {
-        const currentPosition : Square = board.findPiece(this);
-
-        return this.getMovesFromGivenPosition(currentPosition);
+    public getAvailableMoves(board: Board): Array<Square> {
+        const currentPosition: Square = board.findPiece(this);
+        return this.getMovesFromGivenPosition(currentPosition, board);
     }
 
-    public getMovesFromGivenPosition(currentPosition: Square) {
-        const moves = [];
+    public getMovesFromGivenPosition(currentPosition: Square, board: Board): Array<Square> {
+        const moves: Array<Square> = [];
 
-        for (let i = 0; i < 8; ++i) {
-            if ( i != currentPosition.col) {
-                moves.push(Square.at(currentPosition.row, i));
-            }
+        const directions = [
+            { dr: -1, dc: 0 },  // Up
+            { dr: 1, dc: 0 },   // Down
+            { dr: 0, dc: -1 },  // Left
+            { dr: 0, dc: 1 }    // Right
+        ];
 
-            if ( i != currentPosition.row) {
-                moves.push(Square.at(i, currentPosition.col));
+        for (const { dr, dc } of directions) {
+            let row = currentPosition.row + dr;
+            let col = currentPosition.col + dc;
+
+            while (row >= 0 && row < 8 && col >= 0 && col < 8) {
+                if (!board.isPositionAvailable(row, col)) {
+                    moves.push(Square.at(row, col));
+                }
+                else {
+                //     if (piece.player !== this.player) {
+                //         moves.push(Square.at(row, col));
+                //     }
+                    break; // stop at first occupied square
+                }
+
+                row += dr;
+                col += dc;
             }
         }
 
         return moves;
     }
+
 }
