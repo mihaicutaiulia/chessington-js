@@ -29,15 +29,10 @@ export default class Rook extends Piece {
 
             while (row >= 0 && row < 8 && col >= 0 && col < 8) {
                 if (!board.isPositionAvailable(row, col)) {
-                    moves.push(Square.at(row, col));
-                }
-                else {
-                //     if (piece.player !== this.player) {
-                //         moves.push(Square.at(row, col));
-                //     }
-                    break; // stop at first occupied square
+                    break;
                 }
 
+                moves.push(Square.at(row, col));
                 row += dr;
                 col += dc;
             }
