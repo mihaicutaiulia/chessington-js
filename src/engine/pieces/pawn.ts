@@ -8,40 +8,22 @@ export default class Pawn extends Piece {
         super(player);
     }
 
-    public getAvailableMoves(board: Board) {
-        let moves;
-        const currentPosition : Square = board.findPiece(this);
+    public getAvailableMoves(board: Board): Array<Square> {
+        const currentPosition: Square = board.findPiece(this);
+        const direction = this.player === Player.WHITE ? 1 : -1;
+        const moves: Array<Square> = [];
 
-        if (this.player == Player.WHITE) {
-            moves = this.getAvailableMovesWhite(currentPosition);
-        } else {
-            moves = this.getAvailableMovesBlack(currentPosition)
+        const oneStepRow = currentPosition.row + direction;
+        if (board.isPositionAvailable(oneStepRow, currentPosition.col)) {
+            moves.push(Square.at(oneStepRow, currentPosition.col));
+
+            const twoStepRow = currentPosition.row + 2 * direction;
+            if (!this.hasMoved && board.isPositionAvailable(twoStepRow, currentPosition.col)) {
+                moves.push(Square.at(twoStepRow, currentPosition.col));
+            }
         }
 
         return moves;
     }
 
-    private getAvailableMovesWhite(currentPosition: Square) : Array<Square> {
-        const moves = [];
-
-        moves.push(Square.at(currentPosition.row + 1, currentPosition.col));
-
-        if (!this.hasMoved) {
-            moves.push(Square.at(currentPosition.row + 2, currentPosition.col));
-        }
-
-        return moves;
-    }
-
-    private getAvailableMovesBlack(currentPosition: Square) : Array<Square> {
-        const moves = [];
-
-        moves.push(Square.at(currentPosition.row - 1, currentPosition.col));
-
-        if (!this.hasMoved) {
-            moves.push(Square.at(currentPosition.row - 2, currentPosition.col));
-        }
-
-        return moves;
-    }
 }
