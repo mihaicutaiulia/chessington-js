@@ -11,9 +11,14 @@ export default class Pawn extends Piece {
     public getAvailableMoves(board: Board): Array<Square> {
         const currentPosition: Square = board.findPiece(this);
         const direction = this.player === Player.WHITE ? 1 : -1;
-        const moves: Array<Square> = [];
+        const moves = [];
 
         const oneStepRow = currentPosition.row + direction;
+
+        if (!this.isPositionValid(oneStepRow, currentPosition.col)) {
+            return Array(0);
+        }
+
         if (board.isPositionAvailable(oneStepRow, currentPosition.col)) {
             moves.push(Square.at(oneStepRow, currentPosition.col));
 
