@@ -2,6 +2,7 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
+import King from "./king";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
@@ -29,6 +30,11 @@ export default class Rook extends Piece {
 
             while (row >= 0 && row < 8 && col >= 0 && col < 8) {
                 if (!board.isPositionAvailable(row, col)) {
+                    const piece = board.getPiece(Square.at(row, col));
+                    if (!(piece instanceof King) && piece?.player != this.player) {
+                        moves.push(Square.at(row, col));
+                    }
+
                     break;
                 }
 
