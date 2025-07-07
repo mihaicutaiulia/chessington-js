@@ -8,27 +8,37 @@ export default class Bishop extends Piece {
         super(player);
     }
 
-    public getAvailableMoves(board: Board) {
-        const currentPosition : Square = board.findPiece(this);
-
-        return this.getMovesFromGivenPosition(currentPosition);
+    public getAvailableMoves(board: Board): Array<Square> {
+        const currentPosition: Square = board.findPiece(this);
+        return this.getMovesFromGivenPosition(currentPosition, board);
     }
 
-    public getMovesFromGivenPosition(currentPosition: Square) {
-        const moves = [];
+    public getMovesFromGivenPosition(currentPosition: Square, board: Board): Array<Square> {
+        const moves: Array<Square> = [];
 
-        for (let i = 0; i < 8; ++i) {
-            for (let j = 0; j < 8; ++j) {
-                const iDiff = i - currentPosition.row;
-                const jDiff = j - currentPosition.col;
-                if (iDiff == jDiff || iDiff == -jDiff) {
-                    if (i != currentPosition.row || j != currentPosition.col) {
-                        moves.push(Square.at(i, j));
-                    }
+        const directions = [
+            { dr: -1, dc: -1 }, // up-left
+            { dr: -1, dc: 1 },  // up-right
+            { dr: 1, dc: -1 },  // down-left
+            { dr: 1, dc: 1 }    // down-right
+        ];
+
+        for (const { dr, dc } of directions) {
+            let row = currentPosition.row + dr;
+            let col = currentPosition.col + dc;
+
+            while (row >= 0 && row < 8 && col >= 0 && col < 8) {
+                if (!board.isPositionAvailable(row, col)) {
+                    break;
                 }
+                moves.push(Square.at(row, col));
+
+                row += dr;
+                col += dc;
             }
         }
 
         return moves;
     }
+
 }

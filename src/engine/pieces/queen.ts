@@ -16,7 +16,7 @@ export default class Queen extends Piece {
         const bishop = new Bishop(this.player);
         const rook = new Rook(this.player);
 
-        let moves = bishop.getMovesFromGivenPosition(currentPosition);
+        let moves = bishop.getMovesFromGivenPosition(currentPosition, board);
         moves = moves.concat(rook.getMovesFromGivenPosition(currentPosition, board));
 
         return moves;
