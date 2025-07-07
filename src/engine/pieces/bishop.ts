@@ -9,8 +9,13 @@ export default class Bishop extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const moves = [];
         const currentPosition : Square = board.findPiece(this);
+
+        return this.getMovesFromGivenPosition(currentPosition);
+    }
+
+    public getMovesFromGivenPosition(currentPosition: Square) {
+        const moves = [];
 
         for (let i = 0; i < 8; ++i) {
             for (let j = 0; j < 8; ++j) {
