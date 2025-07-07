@@ -24,6 +24,6 @@ export default class Piece {
     }
 
     public isPositionValid(x: number, y: number) {
-        return !((x >= 8 || y >= 8) && (x < 0 || y < 0));
+        return !(x >= 8 || y >= 8 || x < 0 || y < 0);
     }
 }
