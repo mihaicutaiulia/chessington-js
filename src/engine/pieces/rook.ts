@@ -2,7 +2,6 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
-import King from "./king";
 import PieceType from "./type";
 
 export default class Rook extends Piece {
@@ -16,8 +15,6 @@ export default class Rook extends Piece {
     }
 
     public getMovesFromGivenPosition(currentPosition: Square, board: Board): Array<Square> {
-        const moves: Array<Square> = [];
-
         const directions = [
             { dr: -1, dc: 0 },  // Up
             { dr: 1, dc: 0 },   // Down
@@ -25,24 +22,7 @@ export default class Rook extends Piece {
             { dr: 0, dc: 1 }    // Right
         ];
 
-        for (const { dr, dc } of directions) {
-            let row = currentPosition.row + dr;
-            let col = currentPosition.col + dc;
-
-            while (row >= 0 && row < 8 && col >= 0 && col < 8) {
-                if (!board.isPositionAvailable(row, col)) {
-                    this.takePieceFromEnemy(board, moves, row, col);
-
-                    break;
-                }
-
-                moves.push(Square.at(row, col));
-                row += dr;
-                col += dc;
-            }
-        }
-
-        return moves;
+        return this.movesInGivenDirection(board, currentPosition, directions);
     }
 
 }
