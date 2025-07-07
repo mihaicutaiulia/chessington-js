@@ -8,7 +8,7 @@ describe('Pawn', () => {
 
     describe('white pawns', () => {
         let board : Board;
-        beforeEach(() => board = new Board());
+        beforeEach(() => board = new Board(Player.WHITE));
         
         it('can move one square up', () => {
             const pawn = new Pawn(Player.WHITE);
@@ -44,7 +44,7 @@ describe('Pawn', () => {
 
     describe('black pawns', () => {
         let board : Board;
-        beforeEach(() => board = new Board());
+        beforeEach(() => board = new Board(Player.BLACK));
         
         it('can move one square down', () => {
             const pawn = new Pawn(Player.BLACK);
