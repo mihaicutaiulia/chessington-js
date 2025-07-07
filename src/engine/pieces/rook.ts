@@ -1,6 +1,7 @@
 import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
+import Square from "../square";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
@@ -8,6 +9,19 @@ export default class Rook extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        return new Array(0);
+        const moves = [];
+        const currentPosition : Square = board.findPiece(this);
+
+        for (let i = 0; i < 8; ++i) {
+            if ( i != currentPosition.col) {
+                moves.push(Square.at(currentPosition.row, i));
+            }
+
+            if ( i != currentPosition.row) {
+                moves.push(Square.at(i, currentPosition.col));
+            }
+        }
+
+        return moves;
     }
 }
