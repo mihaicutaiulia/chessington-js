@@ -26,6 +26,10 @@ export default class Pawn extends Piece {
 
         moves.push(Square.at(currentPosition.row + 1, currentPosition.col));
 
+        if (!this.hasMoved) {
+            moves.push(Square.at(currentPosition.row + 2, currentPosition.col));
+        }
+
         return moves;
     }
 
@@ -33,6 +37,10 @@ export default class Pawn extends Piece {
         const moves = [];
 
         moves.push(Square.at(currentPosition.row - 1, currentPosition.col));
+
+        if (!this.hasMoved) {
+            moves.push(Square.at(currentPosition.row - 2, currentPosition.col));
+        }
 
         return moves;
     }
