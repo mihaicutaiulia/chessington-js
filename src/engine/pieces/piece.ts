@@ -22,4 +22,8 @@ export default class Piece {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
     }
+
+    public isPositionValid(x: number, y: number) {
+        return !((x >= 8 || y >= 8) && (x < 0 || y < 0));
+    }
 }
