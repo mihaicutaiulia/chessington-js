@@ -1,6 +1,7 @@
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
+import King from "./king";
 
 export default class Piece {
     public player: Player;
@@ -26,4 +27,11 @@ export default class Piece {
     public isPositionValid(x: number, y: number) {
         return !(x >= 8 || y >= 8 || x < 0 || y < 0);
     }
+
+    // public takePieceFromEnemy(board: Board, moves: Array<Square>, x: number, y: number) {
+    //     const piece = board.getPiece(Square.at(x, y));
+    //     if (!(piece instanceof King) && piece?.player != this.player) {
+    //         moves.push(Square.at(x, y));
+    //     }
+    // }
 }
