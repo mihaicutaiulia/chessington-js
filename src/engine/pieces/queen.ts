@@ -4,10 +4,11 @@ import Board from '../board';
 import Square from "../square";
 import Bishop from "./bishop";
 import Rook from "./rook";
+import PieceType from "./type";
 
 export default class Queen extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.QUEEN);
     }
 
     public getAvailableMoves(board: Board) {

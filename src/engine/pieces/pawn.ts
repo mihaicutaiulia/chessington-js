@@ -3,10 +3,11 @@ import Player from '../player';
 import Board from '../board';
 import Square from "../square";
 import King from "./king";
+import PieceType from "./type";
 
 export default class Pawn extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.PAWN);
     }
 
     public getAvailableMoves(board: Board): Array<Square> {
@@ -35,10 +36,7 @@ export default class Pawn extends Piece {
 
             if (this.isPositionValid(captureRow, captureCol)) {
                 if (!board.isPositionAvailable(captureRow, captureCol)) {
-                    const piece = board.getPiece(Square.at(captureRow, captureCol));
-                    if (!(piece instanceof King) && piece?.player != this.player) {
-                        moves.push(Square.at(captureRow, captureCol));
-                    }
+                    this.takePieceFromEnemy(board, moves, captureRow, captureCol);
                 }
             }
         }

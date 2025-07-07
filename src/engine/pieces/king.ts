@@ -2,10 +2,11 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
+import PieceType from "./type";
 
 export default class King extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.KING);
     }
 
     public getAvailableMoves(board: Board) {
@@ -19,10 +20,7 @@ export default class King extends Piece {
             for (let j = -1; j < 2; ++j) {
                 if (this.isPositionValid(x + i, y + j) && (i != 0 || j != 0)) {
                     if (!board.isPositionAvailable(x + i, y + j)) {
-                        const piece = board.getPiece(Square.at(x + i, y + j));
-                        if (!(piece instanceof King) && piece?.player != this.player) {
-                            moves.push(Square.at(x + i, y + j));
-                        }
+                        this.takePieceFromEnemy(board, moves, x + i, y + j);
                         continue;
                     }
 

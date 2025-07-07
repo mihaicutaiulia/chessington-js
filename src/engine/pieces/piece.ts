@@ -1,14 +1,16 @@
 import Player from '../player';
 import Board from '../board';
 import Square from '../square';
-import King from "./king";
+import PieceType from "./type";
 
 export default class Piece {
     public player: Player;
     protected hasMoved: boolean = false
+    protected type: PieceType;
 
-    public constructor(player: Player) {
+    public constructor(player: Player, type: PieceType) {
         this.player = player;
+        this.type = type;
     }
 
     public getAvailableMoves(board: Board) {
@@ -28,10 +30,10 @@ export default class Piece {
         return !(x >= 8 || y >= 8 || x < 0 || y < 0);
     }
 
-    // public takePieceFromEnemy(board: Board, moves: Array<Square>, x: number, y: number) {
-    //     const piece = board.getPiece(Square.at(x, y));
-    //     if (!(piece instanceof King) && piece?.player != this.player) {
-    //         moves.push(Square.at(x, y));
-    //     }
-    // }
+    public takePieceFromEnemy(board: Board, moves: Array<Square>, x: number, y: number) {
+        const piece = board.getPiece(Square.at(x, y));
+        if (piece?.type != PieceType.KING && piece?.player != this.player) {
+            moves.push(Square.at(x, y));
+        }
+    }
 }
