@@ -206,5 +206,35 @@ describe('Pawn', () => {
 
             moves.should.not.deep.include(Square.at(4, 3));
         });
+
+        it('en passant move', () => {
+            board = new Board(Player.BLACK)
+            const whitePawn = new Pawn(Player.WHITE);
+            const blackPawn = new Pawn(Player.BLACK);
+            board.setPiece(Square.at(4, 4), whitePawn);
+            board.setPiece(Square.at(6, 5), blackPawn);
+            blackPawn.moveTo(board, Square.at(4, 5));
+
+            const moves = whitePawn.getAvailableMoves(board);
+
+            moves.should.deep.include(Square.at(5, 5));
+        });
+
+        it ('en passant: the enemy pawn must disappear after the move', () => {
+            board = new Board(Player.BLACK);
+
+            const whitePawn = new Pawn(Player.WHITE);
+            const blackPawn = new Pawn(Player.BLACK);
+            board.setPiece(Square.at(4, 3), whitePawn);
+            board.setPiece(Square.at(6, 4), blackPawn);
+            blackPawn.moveTo(board, Square.at(4, 4));
+            whitePawn.moveTo(board, Square.at(5, 4));
+
+            console.log(board)
+
+            const pieceOnEnPassantSquare = board.getPiece(Square.at(4, 4));
+            console.log(pieceOnEnPassantSquare)
+            pieceOnEnPassantSquare?.should.be.undefined;
+        });
     });
 });
