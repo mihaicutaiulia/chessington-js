@@ -7,8 +7,8 @@ export default class Board {
     public currentPlayer: Player;
     private readonly board: (Piece | undefined)[][];
 
-    public constructor() {
-        this.currentPlayer = Player.WHITE;
+    constructor(currentPlayer: Player = Player.WHITE) {
+        this.currentPlayer = currentPlayer;
         this.board = this.createBoard();
     }
 
@@ -46,5 +46,9 @@ export default class Board {
             board[i] = new Array(GameSettings.BOARD_SIZE);
         }
         return board;
+    }
+
+    public isPositionAvailable(x: number, y:number): boolean {
+        return this.board[x][y] == undefined;
     }
 }
