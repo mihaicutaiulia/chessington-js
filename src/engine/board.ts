@@ -47,4 +47,8 @@ export default class Board {
         }
         return board;
     }
+
+    public isPositionAvailable(x: number, y:number): boolean {
+        return this.board[x][y] == undefined;
+    }
 }

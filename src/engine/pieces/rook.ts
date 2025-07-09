@@ -2,31 +2,27 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
+import PieceType from "./type";
 
 export default class Rook extends Piece {
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.ROOK);
     }
 
-    public getAvailableMoves(board: Board) {
-        const currentPosition : Square = board.findPiece(this);
-
-        return this.getMovesFromGivenPosition(currentPosition);
+    public getAvailableMoves(board: Board): Array<Square> {
+        const currentPosition: Square = board.findPiece(this);
+        return this.getMovesFromGivenPosition(currentPosition, board);
     }
 
-    public getMovesFromGivenPosition(currentPosition: Square) {
-        const moves = [];
+    public getMovesFromGivenPosition(currentPosition: Square, board: Board): Array<Square> {
+        const directions = [
+            { dr: -1, dc: 0 },  // Up
+            { dr: 1, dc: 0 },   // Down
+            { dr: 0, dc: -1 },  // Left
+            { dr: 0, dc: 1 }    // Right
+        ];
 
-        for (let i = 0; i < 8; ++i) {
-            if ( i != currentPosition.col) {
-                moves.push(Square.at(currentPosition.row, i));
-            }
-
-            if ( i != currentPosition.row) {
-                moves.push(Square.at(i, currentPosition.col));
-            }
-        }
-
-        return moves;
+        return this.movesInGivenDirection(board, currentPosition, directions);
     }
+
 }

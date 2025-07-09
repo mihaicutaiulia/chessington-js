@@ -2,34 +2,41 @@ import Piece from './piece';
 import Player from '../player';
 import Board from '../board';
 import Square from "../square";
+import PieceType from "./type";
 
 export default class Knight extends Piece {
-    private offset = [
-        [1, -2],
-        [2, -1],
-        [2, 1],
-        [1, 2],
-        [-1, 2],
-        [-2, 1],
-        [-2, -1],
-        [-1, -2]
-    ];
-
     public constructor(player: Player) {
-        super(player);
+        super(player, PieceType.KNIGHT);
     }
 
     public getAvailableMoves(board: Board) {
-        const moves = [];
-        const currentPosition : Square = board.findPiece(this);
+        const moves: Square[] = [];
+        const currentPosition: Square = board.findPiece(this);
+        const directions = [
+            { dr: 1, dc: -2 },
+            { dr: 1, dc: 2 },
+            { dr: -1, dc: -2 },
+            { dr: -1, dc: 2 },
+            { dr: 2, dc: -1 },
+            { dr: 2, dc: 1 },
+            { dr: -2, dc: -1 },
+            { dr: -2, dc: 1 }
+        ];
 
-        const x = currentPosition.row;
-        const y = currentPosition.col;
+        for (const { dr, dc } of directions) {
+            let row = currentPosition.row + dr;
+            let col = currentPosition.col + dc;
 
-        for (let i = 0; i < 8; ++i) {
+            if (this.isPositionValid(row, col)) {
+                if (!board.isPositionAvailable(row, col)) {
+                    this.takePieceFromEnemy(board, moves, row, col);
 
-            if (this.isPositionValid(x + this.offset[i][0], y+ this.offset[i][1])) {
-                moves.push(Square.at(x + this.offset[i][0], y+ this.offset[i][1]))
+                    break;
+                }
+
+                moves.push(Square.at(row, col));
+                row += dr;
+                col += dc;
             }
         }
 
